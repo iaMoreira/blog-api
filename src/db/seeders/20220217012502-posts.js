@@ -1,5 +1,5 @@
 'use strict';
-const postFactory = require('../factories/postFactory');
+const {postFactory} = require('../factories');
 
 
 module.exports = {
