@@ -1,4 +1,5 @@
 const { Post } = require('../models')
+const { Op } = require("sequelize");
 
 const postController = {
 
@@ -8,8 +9,11 @@ const postController = {
             #swagger.tags = ['Posts']
             #swagger.summary = 'Listagem de posts.'
         */
-
-        const posts = await Post.findAll({ order: [['createdAt', 'DESC']] });
+        const { title } = req.query;
+        const posts = await Post.findAll({ where: {  title: {
+            [Op.like]: '%' + title + '%'
+          }
+        }, order: [['createdAt', 'DESC']] });
 
         /* #swagger.responses[200] = { schema: { "$ref": "#/definitions/Posts" } } */
         return res.json(posts);

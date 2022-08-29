@@ -8,6 +8,7 @@
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest",
     "swagger-autogen": "node src/docs/swagger.js",
+    "sonar": "node sonar-project.js",
     "coverage": "jest --coverage"
   },
   "keywords": [],
@@ -15,8 +16,11 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.6",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1",
     "swagger-autogen": "^2.19.0",
@@ -24,7 +28,9 @@
   },
   "devDependencies": {
     "jest": "^27.5.1",
+    "jest-sonar-reporter": "^2.0.0",
     "nodemon": "^2.0.15",
+    "sonarqube-scanner": "^2.8.1",
     "sqlite3": "^5.0.2",
     "supertest": "^6.2.2"
   }

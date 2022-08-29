@@ -4,11 +4,13 @@ dotenv.config({
 })
 
 const express = require('express')
+const cors = require('cors')
 const app = express();
 const routers = require('./routers')
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('../docs/swagger_output.json')
 
+app.use(cors())
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -18,8 +20,8 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.json());
-routers(app)
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+routers(app)
 
 // set routers
 

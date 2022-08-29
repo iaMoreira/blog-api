@@ -5,12 +5,16 @@
     "title": "Blog API",
     "description": "Documentação da API em Nodejs, desenvolvida pelos aluno da turma Gerando Falcões Fullstack Node. No intuito de alimentar aplicações frontend desenvolvidas com o Reactjs durante a aula."
   },
-  "host": "localhost:3000",
+  "host": "localhost:3001",
   "basePath": "/",
   "tags": [
     {
       "name": "Posts",
       "description": "Endpoints"
+    },
+    {
+      "name": "Auth",
+      "description": "Endpoints para autenticação dos usuários"
     }
   ],
   "schemes": [
@@ -23,6 +27,65 @@
     "application/json"
   ],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login do usuário.",
+        "description": "Login.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Cadastro do usuário.",
+        "description": "Register.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "id": "Example",
+            "name": "Example",
+            "email": "example@example.com"
+          }
+        }
+      }
+    },
     "/posts/": {
       "get": {
         "tags": [
@@ -30,13 +93,25 @@
         ],
         "summary": "Listagem de posts.",
         "description": "Listagem de posts.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/Posts"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -66,6 +141,12 @@
           },
           "400": {
             "description": "O atributo title não foi enviado."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -92,6 +173,12 @@
             "schema": {
               "$ref": "#/definitions/Post"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "O post de id = X não foi encontrado."
@@ -132,6 +219,12 @@
           "400": {
             "description": "O atributo title não foi enviado."
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "O post de id = X não foi encontrado."
           }
@@ -155,6 +248,12 @@
         "responses": {
           "204": {
             "description": "Deletado com sucesso."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "O post de id = X não foi encontrado."
@@ -207,6 +306,58 @@
       "items": {
         "$ref": "#/definitions/Post"
       }
+    },
+    "addUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Example"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "example"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password"
+      ]
+    },
+    "ResultLogin": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "example"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 0
+            },
+            "name": {
+              "type": "string",
+              "example": "example"
+            },
+            "email": {
+              "type": "string",
+              "example": "example@example.com"
+            }
+          }
+        }
+      },
+      "required": [
+        "token",
+        "user"
+      ]
     }
   }
 }
